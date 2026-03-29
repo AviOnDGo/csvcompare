@@ -6,7 +6,7 @@
    <name>csvcompare</name>
    <description>Compare util for CSV files</description> 
    <properties>
-    <version.log4j>2.4.1</version.log4j>
+    <version.log4j>2.12.4</version.log4j>
     <version.opencsv>3.4</version.opencsv>
    </properties>
 
