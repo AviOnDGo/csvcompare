@@ -1,0 +1,39 @@
+name: Synthetic release gate test
+
+on:
+  push:
+    branches: [test/release-gate-20261118]
+
+permissions: {}
+
+jobs:
+  validate-pass:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+
+  validate-fail:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'Expected synthetic validation failure'
+          exit 1
+
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0
+
+  publish-after-pass:
+    needs: [validate-pass, scan]
+    if: needs.validate-pass.result == 'success' && needs.scan.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Mock publisher ran; no release was created.'
+
+  publish-after-failure:
+    needs: [validate-fail, scan]
+    if: needs.validate-fail.result == 'success' && needs.scan.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Unexpected mock publisher invocation'
